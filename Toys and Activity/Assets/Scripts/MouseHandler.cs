@@ -6,30 +6,33 @@ using UnityEngine.EventSystems;
 
 public class ClickObject : MonoBehaviour
 {
-    public GameObject Ball;
     public GameObject Lever;
-    private int flag = 1;
+    public GameObject Ball;
+    //private int flag = 1;
+    //private Vector3 PointA;
+    //private Vector3 PointB;
+
+    private int Rotations;
+    private int count = 0;
     void Start()
     {
+        Rotations = Random.Range(5, 21);
     }
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (Ball == GetClickedObject(out RaycastHit hit))
+            if (Lever == GetClickedObject(out RaycastHit hit))
             {
-                if (flag == 1)
+                if (count == Rotations)
                 {
-                    Ball.transform.position = new Vector3 (182,360,-1128);
-                    flag = 2;
+
                 }
-                else if (flag == 2)
+                else
                 {
-                    Ball.transform.position = new Vector3(1076, 360, -1128);
-                    flag = 1;
+                    count++;
                 }
             }
-            
         }      
     }
 
