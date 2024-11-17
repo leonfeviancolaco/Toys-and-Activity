@@ -1,39 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 
 public class ClickObject : MonoBehaviour
 {
-    public GameObject Lever;
-    public GameObject Ball;
-    //private int flag = 1;
-    //private Vector3 PointA;
-    //private Vector3 PointB;
+    [SerializeField] GameObject Ball;
 
-    private int Rotations;
-    private int count = 0;
+    private int Flag = 1;
     void Start()
     {
-        Rotations = Random.Range(5, 21);
+        
     }
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (Lever == GetClickedObject(out RaycastHit hit))
+            if (Ball == GetClickedObject(out RaycastHit hit))
             {
-                if (count == Rotations)
+                if (Flag == 1)
                 {
-
+                    Ball.transform.position = new Vector3(1103, 634, -638);
+                    Flag = 2;
                 }
-                else
+                else if (Flag == 2)
                 {
-                    count++;
+                    Ball.transform.position = new Vector3(265, 637, -638);
+                    Flag = 3;
+                }
+                else if (Flag == 3)
+                {
+                    Ball.transform.position = new Vector3(258, 192, -638);
+                    Flag = 1;
                 }
             }
-        }      
+        }
+        
     }
 
     GameObject GetClickedObject(out RaycastHit hit)
@@ -42,11 +46,11 @@ public class ClickObject : MonoBehaviour
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray.origin, ray.direction * 10, out hit))
         {
-            if (!isPointerOverObject()) { target = hit.collider.gameObject; }
+            if (!isPointerOverUIObject()) { target = hit.collider.gameObject; }
         }
         return target;
     }
-    private bool isPointerOverObject()
+    private bool isPointerOverUIObject()
     {
         PointerEventData ped = new PointerEventData(EventSystem.current);
         ped.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
